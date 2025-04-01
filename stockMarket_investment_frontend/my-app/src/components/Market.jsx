@@ -110,7 +110,7 @@ const StockTable = ({ data, title, icon, variant = 'light' }) => {
 
     const isGainers = variant === 'success'; // Determine if it's for gainers or losers
 
-    return (
+    return  (
         <>
             <Card.Title as="h6" className="mb-3 d-flex align-items-center card-subtitle">
                  {icon} <span className="ms-2">{title}</span>
