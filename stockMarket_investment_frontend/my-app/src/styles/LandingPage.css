@@ -1,0 +1,326 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+html, body {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+   font-family: "Roboto";
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #0B2447, #1E3A5F);
+    color: white;
+  }
+  
+  /* Navbar */
+  .navbar {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    background: #0B2447;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    padding: 15px 0;
+    box-sizing: border-box;
+    height: 60px;
+  }
+  
+  
+  .navbar-inner {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .navbar-logo svg {
+    margin-right: 10px;
+    color: #F0A500;
+    cursor: pointer;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding-left: 60px;
+   
+
+  }
+  
+  .nav-links li {
+    display: inline;
+    
+  }
+
+
+  
+ 
+  .nav-links button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .nav-links button:hover {
+    color: #F0A500;
+  }
+
+  
+.profilelink {
+  margin-left: auto; 
+ 
+  align-items: center;
+}
+
+
+.profilelink svg {
+  color: white;
+  font-size: 24px;
+}
+.dynamic-text {
+  color: white !important;
+}
+
+  
+ 
+  .landing-container {
+    position: relative;
+    background: url('C:/login-register/public/images/background_imag.jpg') no-repeat center center/cover;
+    height: 100vh; 
+    min-height: 100vh;
+  }
+  
+ 
+  .landing-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Dynamic Content */
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+    padding: 50px;
+    position: relative;
+    z-index: 2;
+    color: white;
+    background-color: transparent !important;
+  }
+  
+  .content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+   
+    z-index: 1;
+  }
+  
+  .dynamic-text {
+    font-size: 28px;
+    font-weight: bold;
+    max-width: 600px;
+    position: relative;
+    z-index: 3;
+  }
+  
+  .get-started-btn {
+    background: #F0A500;
+    color: #0B2447;
+    font-size: 18px;
+    padding: 14px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    z-index: 3;
+  }
+  
+  .get-started-btn:hover {
+    background: #FFCC00;
+    transform: scale(1.05);
+  }
+  
+  /* About Stocks Section */
+  .about-stocks-section {
+    text-align: center;
+    padding: 80px 50px;
+    background-color: #0D1B2A;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .about-stocks-section h2 {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+  
+  
+  .stocks-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+  }
+  
+  /* Stock Item */
+  .stock-item {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    width: 80%;
+    max-width: 1000px;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.8s ease-in-out;
+  }
+  
+  .stock-text {
+    flex: 1;
+    font-size: 20px;
+    text-align: left;
+    color: white; 
+  }
+  
+  .stock-image-container {
+    flex: 1;
+  }
+  
+  .stock-image {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Footer  */
+  .about-us-footer {
+    background-color: #1F4068;
+    color: white;
+    padding: 30px 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 300px;
+    padding: 30px 0;
+  }
+  
+  .footer-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 50px;
+  }
+  
+  .footer-contact {
+    text-align: left;
+  }
+  
+  .footer-contact h4 {
+    font-size: 18px;
+    margin: 0;
+  }
+  
+  .footer-contact p {
+    font-size: 16px;
+    margin: 5px 0 0;
+  }
+  
+  .footer-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .icon {
+    font-size: 22px;
+    color: white;
+    transition: color 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .icon:hover {
+    color: #FFCC00;
+  }
+  
+  .legal-links {
+    margin: 15px 0;
+  }
+  
+  .legal-links a {
+    color: #ddd;
+    margin-right: 20px;
+    text-decoration: none;
+  }
+  
+  .legal-links a:hover {
+    text-decoration: underline;
+  }
+  
+  .copyright {
+    font-size: 14px;
+    color: #aaa;
+  }
+  
+ 
+  .landing-container {
+    min-height: 100vh;
+  }
+  .about-stocks {
+    min-height: 100vh;
+    padding: 50px 0;
+  }
+  .about-us-footer {
+    min-height: 300px;
+    padding: 30px 0;
+  }
+
+  #about-stocks h2 {
+    color: white;
+  }
+  

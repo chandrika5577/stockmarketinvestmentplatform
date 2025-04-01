@@ -1,0 +1,40 @@
+
+.stock-ticker-container {
+    overflow: hidden;
+    white-space: nowrap;
+    background: #A9B5DF;
+    padding: 0 ;
+    
+  }
+  
+  .stock-ticker {
+    display: flex;
+    gap: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    color:#333;
+    align-items: center;
+  }
+  
+  .stock-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .up {
+    color: green;
+    display: flex;
+    align-items: center;
+  }
+  
+  .down {
+    color: red;
+    display: flex;
+    align-items: center;
+  }
+  
+  .neutral {
+    color: #666;
+  }
+  

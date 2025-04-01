@@ -1,0 +1,316 @@
+/* --- Base Variables --- */
+:root {
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --secondary-color: #6c757d;
+  --secondary-hover: #5a6268;
+  --positive-color: #28a745;
+  --negative-color: #dc3545;
+  --background-color: #f8f9fa;
+  --card-background: #ffffff;
+  --text-color: #333;
+  --muted-text-color: #6c757d;
+  --border-color: #dee2e6;
+  --input-border-color: #ced4da;
+  --border-radius: 0.3rem;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --spacing-unit: 1rem;
+}
+
+
+
+/* --- General Styles --- */
+.budget-container {
+  margin: 0;
+  padding: 0;
+  max-width: 900px;
+  margin: calc(var(--spacing-unit) * 1.5) auto;
+  padding: var(--spacing-unit);
+  background-color: var(--background-color);
+  font-family: sans-serif;
+  color: var(--text-color);
+  background-color: #f8f9fa;
+  margin-top: 0;
+
+}
+/* --- General Styles --- */
+.budget-container {
+  /* max-width: 900px; */ /* REMOVE or comment out this line */
+  width: 100% !important; /* Explicitly set width to 100% */
+  box-sizing: border-box; /* Ensure padding is included within the 100% width */
+  margin: calc(var(--spacing-unit) * 0.5) 0; /* Keep top/bottom margin, remove left/right */
+  padding: var(--spacing-unit); /* Keep internal padding */
+  background-color: var(--background-color);
+  font-family: sans-serif;
+  color: var(--text-color);
+  min-height: 100vh; /* Optional: Make container at least the full viewport height */
+}
+
+.budget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-unit);
+  margin-bottom: calc(var(--spacing-unit) * 1.5);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.budget-header h2 {
+  margin: 0;
+  color: var(--primary-color);
+}
+
+.budget-user-info {
+  font-size: 0.9em;
+  color: var(--muted-text-color);
+}
+
+/* --- Card Styling --- */
+.budget-card {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: calc(var(--spacing-unit) * 1.5);
+  margin-bottom: calc(var(--spacing-unit) * 1.5);
+}
+
+.budget-card h3 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-unit);
+  color: var(--primary-color);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: calc(var(--spacing-unit) / 2);
+}
+
+/* --- Wallet Info --- */
+.budget-wallet-info .budget-balance {
+  font-size: 1.2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.budget-wallet-info .budget-balance strong {
+  color: var(--positive-color);
+  font-weight: bold;
+}
+
+/* --- Budget Setup --- */
+.budget-input-form label {
+  display: block;
+  margin-bottom: calc(var(--spacing-unit) / 3);
+  font-weight: bold;
+}
+
+.input-group {
+  display: flex;
+  gap: calc(var(--spacing-unit) / 2);
+  align-items: center;
+  margin-bottom: var(--spacing-unit); /* Add space before reset button */
+}
+
+.budget-input {
+  flex-grow: 1;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+
+.budget-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* --- Buttons --- */
+.budget-button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.budget-button.primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.budget-button.primary:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+
+.budget-button.secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.budget-button.secondary:hover:not(:disabled) {
+  background-color: var(--secondary-hover);
+}
+
+.budget-button.buy {
+    background-color: var(--positive-color);
+    color: white;
+    padding: 0.4rem 0.8rem; /* Smaller buy button */
+    font-size: 0.8rem;
+}
+
+.budget-button.buy:hover:not(:disabled) {
+    background-color: #218838; /* Darker green */
+}
+
+.budget-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.reset-button {
+  margin-top: calc(var(--spacing-unit) / 2); /* Space above reset */
+}
+
+
+/* --- Progress Section --- */
+.budget-progress-section .budget-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-unit);
+  font-size: 0.95em;
+  color: var(--muted-text-color);
+}
+.budget-progress-section .budget-summary span {
+    font-weight: 500;
+}
+
+.progress-bar-container {
+  width: 100%;
+  background-color: #e9ecef;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  height: 20px; /* Fixed height for the bar */
+  margin-bottom: calc(var(--spacing-unit) / 2);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8em;
+  font-weight: bold;
+  transition: width 0.4s ease;
+  white-space: nowrap;
+}
+
+/* --- Tables --- */
+.stocks-table-container {
+  overflow-x: auto; /* Allow horizontal scroll on small screens */
+}
+
+.stocks-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--spacing-unit);
+}
+
+.stocks-table th,
+.stocks-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.stocks-table th {
+  background-color: var(--background-color);
+  font-weight: bold;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  color: var(--muted-text-color);
+}
+
+.stocks-table tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.positive-change {
+  color: var(--positive-color);
+  font-weight: bold;
+}
+
+.negative-change {
+  color: var(--negative-color);
+  font-weight: bold;
+}
+
+/* --- Empty State --- */
+.empty-state {
+  color: var(--muted-text-color);
+  text-align: center;
+  padding: var(--spacing-unit);
+  font-style: italic;
+}
+
+/* --- Tips Section --- */
+.budget-tips ul {
+  list-style: disc;
+  padding-left: calc(var(--spacing-unit) * 1.5);
+  margin: 0;
+}
+
+.budget-tips li {
+  margin-bottom: calc(var(--spacing-unit) / 2);
+  line-height: 1.6;
+}
+
+.budget-tips li strong {
+  color: var(--primary-color);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .budget-container {
+    margin: var(--spacing-unit) auto;
+  }
+
+  .budget-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .budget-user-info {
+      margin-top: calc(var(--spacing-unit) / 2);
+  }
+
+  .input-group {
+      flex-direction: column;
+      align-items: stretch;
+  }
+
+  .budget-input-form .budget-button {
+      width: 100%;
+  }
+
+  .budget-progress-section .budget-summary {
+      flex-direction: column;
+      gap: calc(var(--spacing-unit) / 4);
+      align-items: flex-start;
+  }
+
+  .stocks-table th,
+  .stocks-table td {
+      padding: 0.5rem;
+      font-size: 0.9em;
+  }
+
+   .budget-button.buy {
+     padding: 0.5rem; 
+   }
+}

@@ -1,0 +1,168 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #E3F2FD !important;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.home-container {
+    background-color: #E3F2FD !important;
+    background-image: url('C:\stockmarketinvestmentplatformproject\stockMarket_investment_frontend\my-app\public\bull_image.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Navbar */
+.home-navbar {
+    background-color: #0B2447;
+    color: white;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-text {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.home-navbar ul {
+    list-style-type: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+.home-navbar ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.home-navbar ul li a:hover {
+    color: #f4b400;
+}
+
+.center-home-search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    text-align: center;
+}
+
+.center-home-search-container h1 {
+    font-size: 48px;
+    font-weight: bold;
+    color: #ddd;
+    margin-bottom: 10px;
+}
+
+.hlogo {
+    color: #f4b400;
+}
+
+.center-home-search-container p {
+    font-size: 18px;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.home-search-box {
+    display: flex;
+    align-items: center;
+    width: 400px;
+    border-radius: 25px;
+    background-color: white;
+    padding: 8px 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.home-search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.home-search-box button {
+    background-color: #f4b400;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+    color: #0B2447;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+/* Search Results Dropdown */
+.home-search-results {
+    position: absolute;
+    top: 10%; 
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    margin-top: 5px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.home-search-result-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #333;
+}
+
+.home-search-result-item:hover {
+    background-color: #f4f4f4;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: center;
+    display: none; 
+}
+
+/* Profile Icon */
+.profile {
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile a {
+    color: white;
+    font-size: 24px;
+    transition: color 0.3s ease-in-out;
+}
+
+.profile a:hover {
+    color: #007bff;
+}

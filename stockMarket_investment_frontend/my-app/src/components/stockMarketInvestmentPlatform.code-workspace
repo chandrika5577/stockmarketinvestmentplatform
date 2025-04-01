@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../../../stockMarket_investment_backend"
+		},
+		{
+			"path": "../../.."
+		}
+	],
+	"settings": {
+		"java.compile.nullAnalysis.mode": "automatic"
+	}
+}

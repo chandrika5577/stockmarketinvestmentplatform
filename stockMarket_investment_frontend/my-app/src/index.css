@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+/* Global Dark Mode */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* Specific Styling for Components in Dark Mode */
+.dark-mode .profile-sidebar {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark-mode .profile-avatar .user-icon {
+  color: #f4b400;
+}
+
+.dark-mode .dark-mode-toggle {
+  background-color: #444;
+  color: #fff;
+}
+
+.dark-mode .logout-icon {
+  color: #ff6666;
+}

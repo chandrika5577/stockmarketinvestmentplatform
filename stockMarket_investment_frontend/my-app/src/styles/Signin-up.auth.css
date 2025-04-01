@@ -1,0 +1,141 @@
+
+
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #0B2447; 
+}
+
+.container, .auth-container {
+  width: 400px;
+  padding: 2rem;
+  background-color: #D1E0FF; 
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+}
+
+.sign-up {
+  text-align: center;
+}
+
+.sign-navbar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  color: #0B2447;
+}
+
+.navbar-logo svg {
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.heading {
+  margin-bottom: 1.5rem;
+  color: #0B2447;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  border: 1px solid #A9C2EB; 
+  border-radius: 15px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  background-color: #F8FAFD; 
+}
+
+.text svg {
+  margin-right: 0.5rem;
+  color: #1E3A5F;
+}
+
+.text input {
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 0.25rem;
+  background-color: transparent; 
+}
+
+button {
+  background-color: #0B2447;
+  color: white;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: px;
+  cursor: pointer;
+  margin-top: 1rem;
+  padding: 10px;
+}
+
+button:disabled {
+  background-color: #1E3A5F;
+  cursor: not-allowed;
+}
+
+.conditions {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.conditions a {
+  color: #0B2447;
+  text-decoration: none;
+}
+
+.terms {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+}
+
+.terms input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+/* Alert styling */
+.alert {
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+  color: #856404;
+}
+
+
+@media (max-width: 480px) {
+  .container, .auth-container {
+    width: 90%;
+    padding: 1.5rem;
+  }
+}

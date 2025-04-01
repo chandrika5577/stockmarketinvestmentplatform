@@ -1,0 +1,56 @@
+
+
+.add-stock.btn {
+    margin-bottom: 20px;
+  margin-right: 10px;
+}
+
+.holdings-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px; 
+  align-items: center;
+  justify-content: center;
+}
+
+/* Add  Button */
+.add-btn {
+  background-color: white; 
+  color: black;
+  border: 2px ;
+  padding: 6px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+
+.wishlist-btn {
+  background-color: white;
+  color: black;
+  border: 2px ;
+  padding: 6px 10px;
+  font-size: 16px;
+  display: flex;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.wishlist-btn:hover {
+  background-color: #555;
+  color: white;
+}
