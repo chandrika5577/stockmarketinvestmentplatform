@@ -6,7 +6,7 @@ const FunChatbot = () => {
   const [messages, setMessages] = useState([
     { sender: "bot", text: "Hello! I'm here to help you. Ask me anything! 😊" },
   ]);
-  const chatWindowRef = useRef(null); // Ref for chat window height
+  const chatWindowRef = useRef(null); 
 
   const handleUserMessage = (text) => {
     const staticResponses = {
@@ -94,7 +94,7 @@ const FunChatbot = () => {
         </div>
       )}
 
-      {/* Chatbot Button */}
+     
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="bg-blue-600 text-white p-4 rounded-full shadow-lg flex items-center justify-center"

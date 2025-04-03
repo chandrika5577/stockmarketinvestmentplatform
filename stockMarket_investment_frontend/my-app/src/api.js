@@ -6,25 +6,22 @@ const api = axios.create({
     baseURL: API_BASE_URL,
     headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem("token")}` // Ensure token is stored in localStorage after login
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
     },
 });
 
-// Authentication APIs
 export const loginUser = async (formData) => {
     try {
         const response = await api.post("/users/login", formData);
-        console.log("Login API Response:", response.data); // ✅ Debugging API response
-
+        
         if (response.data && response.data.userId) {
             const userData = {
                 id: response.data.userId,  
-                name: response.data.name || "guest", // ✅ Default to Guest if missing
-                email: response.data.email || "",  // ✅ Ensure email is stored
+                name: response.data.name || "guest",
+                email: response.data.email || "",
             };
 
-            localStorage.setItem("user", JSON.stringify(userData)); // ✅ Store only relevant fields
-            console.log("User stored in localStorage:", userData);
+            localStorage.setItem("user", JSON.stringify(userData));
         }
         
         return response;
@@ -34,24 +31,16 @@ export const loginUser = async (formData) => {
     }
 };
 
-
-
 export const registerUser = async (formData) => api.post("/users/register", formData);
 
-
-// Wishlist APIs
 export const addToWishlist = async (userId, stock) => {
-    console.log("Sending request to backend...", { userId, stock });
-
     try {
         const response = await api.post("/stocks/wishlist/add", { userId, ...stock });
-        console.log("Add Wishlist API Response:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error in Wishlist API:", error.response?.data || error.message);
     }
 };
-
 
 export const removeFromWishlist = async (userId, symbol) => {
     try {
@@ -64,7 +53,6 @@ export const removeFromWishlist = async (userId, symbol) => {
 export const fetchWishlist = async (userId) => {
     try {
         const response = await api.get(`/stocks/wishlist/${userId}`);
-        console.log("Fetched Wishlist Data from Backend:", response.data); // ✅ Debugging
         return response.data;
     } catch (error) {
         console.error("Error fetching wishlist:", error.response?.data || error.message);
@@ -72,11 +60,8 @@ export const fetchWishlist = async (userId) => {
 };
 
 export const saveBudget = async (budgetData) => {
-    console.log("Sending Budget Data to Backend:", budgetData); // ✅ Debugging
-
     try {
-        const response = await api.post("/budget/set", budgetData); // Update endpoint
-        console.log("API Response:", response.data); // ✅ Debugging
+        const response = await api.post("/budget/set", budgetData);
         return response.data;
     } catch (error) {
         console.error("Error saving budget:", error.response?.data || error.message);
@@ -86,14 +71,12 @@ export const saveBudget = async (budgetData) => {
 
 export const fetchBudget = async (userId) => {
     try {
-        const response = await api.get(`/budget/${userId}`); // Matches your backend endpoint
-        console.log("Fetched Budget:", response.data);
+        const response = await api.get(`/budget/${userId}`);
         return response.data;
     } catch (error) {
         console.error("Error fetching budget:", error.response?.data || error.message);
         throw error;
     }
 };
-
 
 export default api;

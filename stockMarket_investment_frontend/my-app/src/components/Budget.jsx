@@ -1,21 +1,21 @@
 import React, { useState, useContext, useMemo } from "react";
 import { StockDataContext } from "../contexts/StockDataContext";
-import "../styles/Budget.css"; // Ensure this path is correct
+import "../styles/Budget.css"; 
 
 const Budget = () => {
   const { availableStocks, wallet, updateWallet } = useContext(StockDataContext);
-  const [investmentAmount, setInvestmentAmount] = useState(""); // Use string for input flexibility
+  const [investmentAmount, setInvestmentAmount] = useState(""); 
   const [budgetSet, setBudgetSet] = useState(false);
   const [currentBudget, setCurrentBudget] = useState(0);
   const [spentAmount, setSpentAmount] = useState(0);
   const [purchasedStocks, setPurchasedStocks] = useState([]);
   const user = JSON.parse(localStorage.getItem("user")) || {};
 
-  // Memoize sorting and filtering for performance
+  
   const highDemandStocks = useMemo(() => {
     return [...availableStocks]
       .sort((a, b) => b.change - a.change)
-      .slice(0, 5); // Show top 5 high-demand
+      .slice(0, 5); 
   }, [availableStocks]);
 
   const affordableRecommendedStocks = useMemo(() => {
@@ -23,11 +23,11 @@ const Budget = () => {
     const remainingFunds = currentBudget - spentAmount;
     return availableStocks
       .filter((stock) => stock.price <= remainingFunds)
-      .sort((a, b) => b.change - a.change); // Recommend affordable stocks, sorted by performance
+      .sort((a, b) => b.change - a.change); 
   }, [availableStocks, currentBudget, spentAmount, budgetSet]);
 
   const handleSetBudget = (e) => {
-    e.preventDefault(); // Prevent default form submission if wrapped in form
+    e.preventDefault(); 
     const amount = Number(investmentAmount);
     if (isNaN(amount) || amount <= 0) {
       alert("Please enter a valid positive investment amount.");
@@ -52,10 +52,10 @@ const Budget = () => {
     if (stock.price <= remainingFunds) {
       const newSpentAmount = spentAmount + stock.price;
       setSpentAmount(newSpentAmount);
-      updateWallet(-stock.price); // Update global wallet state
+      updateWallet(-stock.price); 
       setPurchasedStocks((prev) => [
         ...prev,
-        { ...stock, purchasePrice: stock.price }, // Store price at time of purchase
+        { ...stock, purchasePrice: stock.price }, 
       ]);
     } else {
       alert("Not enough budget remaining to buy this stock!");
@@ -63,8 +63,7 @@ const Budget = () => {
   };
 
   const handleResetBudget = () => {
-    // Note: This reset only clears the planning state.
-    // It does NOT refund the money spent in this session via updateWallet.
+    
     setInvestmentAmount("");
     setCurrentBudget(0);
     setSpentAmount(0);
@@ -105,7 +104,7 @@ const Budget = () => {
               min="0.01"
               step="0.01"
               required
-              disabled={budgetSet} // Disable input after setting budget
+              disabled={budgetSet} 
               className="budget-input"
             />
             <button type="submit" className="budget-button primary" disabled={budgetSet}>
@@ -195,7 +194,7 @@ const Budget = () => {
               </thead>
               <tbody>
                 {purchasedStocks.map((stock, index) => (
-                  // Using index in key because symbols might repeat if bought multiple times
+                
                   <tr key={`${stock.symbol}-${index}`}>
                     <td>{stock.symbol}</td>
                     <td>{stock.name}</td>
