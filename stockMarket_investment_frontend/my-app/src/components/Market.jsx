@@ -42,12 +42,12 @@ const Market = () => {
   return (
     <Container fluid className="market-page-container">
       <Row>
-        {/* === Left Content === */}
+       
         <Col md={9}>
           <h2 className="market-title">Market Overview</h2>
           <p className="market-subtitle">Compare stocks and follow trends in real time.</p>
 
-          {/* Top Gainers & Losers */}
+         
           <Row className="mb-4">
             <Col md={6}>
               <Card className="market-card">
@@ -75,7 +75,7 @@ const Market = () => {
             </Col>
           </Row>
 
-          {/* Comparison Section */}
+         
           <Card className="market-card mb-4">
             <Card.Body>
               <Card.Title>Compare Two Stocks</Card.Title>
@@ -127,7 +127,7 @@ const Market = () => {
                     </Row>
                   </div>
 
-                  {/* Dynamic Analysis */}
+                 
                   <div className="analysis-box mt-3">
                     <strong>Analysis:</strong> {getAnalysis()}
                   </div>
@@ -137,7 +137,7 @@ const Market = () => {
           </Card>
         </Col>
 
-        {/* === Right Sidebar === */}
+      
         <Col md={3}>
           <div className="market-sidebar">
             <h5 className="sidebar-title">Trending News</h5>

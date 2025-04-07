@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { fetchWishlist, removeFromWishlist } from "../api";
 import StockDataContext from '../contexts/StockDataContext';
+import { CiCircleRemove } from "react-icons/ci";
 
 const Wishlist = ({ scrollToSection }) => {
     const { userId ,wishlist,setWishlist} = useContext(StockDataContext);
@@ -43,7 +44,7 @@ const Wishlist = ({ scrollToSection }) => {
                                 <td>{stock.exchange}</td>
                                 <td>
                                     <button className="btn btn-danger btn-sm" onClick={() => handleRemoveFromWishlist(stock.symbol)}>
-                                        ❌ Remove
+                                    <CiCircleRemove />
                                     </button>
                                 </td>
                             </tr>
