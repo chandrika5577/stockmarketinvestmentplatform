@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StockDataContext } from "../contexts/StockDataContext";
+import StockDataContext from '../contexts/StockDataContext';
 
 const StockDetails = ({ symbol }) => {
   const { selectedStockData, selectedPeers } = useContext(StockDataContext);

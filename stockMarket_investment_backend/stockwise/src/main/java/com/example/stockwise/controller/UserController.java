@@ -3,6 +3,9 @@ package com.example.stockwise.controller;
 
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,14 +39,23 @@ public class UserController {
     }
 
     // Login user
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User user) {
-        User existingUser = userRepository.findByEmail(user.getEmail());
-        if (existingUser == null || !existingUser.getPassword().equals(user.getPassword())) {
-            return ResponseEntity.badRequest().body("Invalid email or password!");
-        }
-        return ResponseEntity.ok("Login successful!");
+  @PostMapping("/login")
+public ResponseEntity<?> loginUser(@RequestBody User user) {
+    User existingUser = userRepository.findByEmail(user.getEmail());
+
+    if (existingUser == null || !existingUser.getPassword().equals(user.getPassword())) {
+        return ResponseEntity.badRequest().body("Invalid email or password!");
     }
+
+    
+    Map<String, Object> response = new HashMap<>();
+    response.put("userId", existingUser.getUserId());
+    response.put("name", existingUser.getName());
+    response.put("email", existingUser.getEmail());
+   
+    return ResponseEntity.ok(response);
+}
+
 
     // Get user by ID
     @GetMapping("/{userId}")

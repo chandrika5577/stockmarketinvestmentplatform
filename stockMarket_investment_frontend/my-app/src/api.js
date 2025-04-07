@@ -31,6 +31,12 @@ export const loginUser = async (formData) => {
     }
 };
 
+export const getUserFromLocalStorage = () => {
+    const user = localStorage.getItem("user");
+    return user ? JSON.parse(user) : null;
+  };
+  
+
 export const registerUser = async (formData) => api.post("/users/register", formData);
 
 export const addToWishlist = async (userId, stock) => {

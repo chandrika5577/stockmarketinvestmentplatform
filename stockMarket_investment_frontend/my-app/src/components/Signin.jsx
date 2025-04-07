@@ -6,7 +6,7 @@ import { FaLock, FaChartLine } from "react-icons/fa";
 
 import Alert from "react-bootstrap/Alert";
 import { loginUser } from "../api";
-import { StockDataContext } from "../contexts/StockDataContext";
+import StockDataContext from '../contexts/StockDataContext';
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -25,8 +25,9 @@ const Signin = () => {
     e.preventDefault();
     setAlert(null);
     setLoading(true);
-
+  
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
     if (!formData.email || !formData.password) {
       setAlert({ type: "danger", message: "Please fill in both fields." });
       setLoading(false);
@@ -42,42 +43,47 @@ const Signin = () => {
       setLoading(false);
       return;
     }
-    
+  
     try {
       const response = await loginUser(formData);
-      console.log("User logged in successfully. Response:", response.data);
+      const { token, userId, name, email } = response.data;
+  
+      console.log("User logged in successfully:", response.data);
+  
+      
+      localStorage.setItem("token", token);
   
     
-      localStorage.setItem("token", response.data.token);
+      setUserId(userId);
+      setName(name || "Guest");
+      setEmail(email || "");
   
-      if (response.data.userId) {
-          setUserId(response.data.userId);
-          console.log("Login successful, User ID:", response.data.userId);
-       if(response.data.name) {
-        setName(response.data.name);
-        
-       }
-       if(response.data.email) {
-        setEmail(response.data.email);
-       }
-         
-          localStorage.setItem("user", JSON.stringify({
-              id: response.data.userId,  
-              name: response.data.name || "Guest",  
-              email: response.data.email || ""      
-          }));
-      }
+      // user in localStorage
+      localStorage.setItem("user", JSON.stringify({
+        id: userId,
+        name: name || "Guest",
+        email: email || ""
+      }));
+
+      console.log("🚀 Response Data:", response.data);
+console.log("🧪 userId:", response.data.userId);
+console.log("🧪 email:", response.data.email);
+console.log("🧪 name:", response.data.name);
+
   
+     
       navigate("/home");
-  
     } catch (error) {
       console.error("Login error:", error.response?.data || error.message);
-      setAlert({ type: "danger", message: error.response?.data?.message || "Login failed. Please try again." });
+      setAlert({
+        type: "danger",
+        message: error.response?.data?.message || "Login failed. Please try again."
+      });
     } finally {
       setLoading(false);
     }
-   
   };
+  
 
   return (
     <div className="auth-page">

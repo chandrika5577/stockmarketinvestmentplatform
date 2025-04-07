@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { StockDataContext } from "../contexts/StockDataContext";
+import StockDataContext from '../contexts/StockDataContext';
 import { addToWishlist } from "../api";
 import { IoMdAdd } from "react-icons/io";
 import { CiStar } from "react-icons/ci";

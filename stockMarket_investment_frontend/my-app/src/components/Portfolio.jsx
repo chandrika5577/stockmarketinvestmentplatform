@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
 import "../styles/Portfolio.css";
 import { FaEdit } from "react-icons/fa";
-import { StockDataContext } from "../contexts/StockDataContext";
+import StockDataContext from '../contexts/StockDataContext';
 import ChartComponent from "./ChartComponent";
 import StockDetails from "./StockDetails.jsx";
 import Holdings from "./Holdings.jsx";

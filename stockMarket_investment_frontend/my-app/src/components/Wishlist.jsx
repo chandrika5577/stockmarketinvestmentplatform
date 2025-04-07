@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { fetchWishlist, removeFromWishlist } from "../api";
-import { StockDataContext } from "../contexts/StockDataContext";
+import StockDataContext from '../contexts/StockDataContext';
 
 const Wishlist = ({ scrollToSection }) => {
     const { userId ,wishlist,setWishlist} = useContext(StockDataContext);

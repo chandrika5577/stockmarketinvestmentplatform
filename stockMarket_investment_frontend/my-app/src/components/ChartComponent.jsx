@@ -1,27 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
   Legend,
-  BarElement,
-} from 'chart.js';
-import { Chart } from 'react-chartjs-2';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+  ResponsiveContainer,
+} from "recharts";
 
 function ChartComponent({ historicalData, timeframe, setTimeframe }) {
   const [showNSE, setShowNSE] = useState(true);
@@ -30,149 +17,87 @@ function ChartComponent({ historicalData, timeframe, setTimeframe }) {
   const [show50DMA, setShow50DMA] = useState(false);
   const [show200DMA, setShow200DMA] = useState(false);
 
-  const labels = historicalData.map((data) => data.date);
-  const nsePrices = historicalData.map((data) => data.nsePrice);
-  const bsePrices = historicalData.map((data) => data.bsePrice);
-  const volumes = historicalData.map((data) => data.volume);
+  // Transforming historical data for Recharts
+  const chartData = historicalData.map((data) => ({
+    date: data.date,
+    nsePrice: data.nsePrice,
+    bsePrice: data.bsePrice,
+    volume: data.volume,
+  }));
 
+  // Function to calculate Simple Moving Average (SMA)
   const calculateSMA = (data, window) => {
     return data.map((_, index) => {
       if (index < window - 1) return null;
-      const sum = data.slice(index - window + 1, index + 1).reduce((a, b) => a + b, 0);
+      const sum = data
+        .slice(index - window + 1, index + 1)
+        .reduce((a, b) => a + b, 0);
       return sum / window;
     });
   };
 
-  const sma50 = calculateSMA(nsePrices, 50);
-  const sma200 = calculateSMA(nsePrices, 200);
+  // Compute 50-day and 200-day SMA for NSE Prices
+  const sma50 = calculateSMA(chartData.map((d) => d.nsePrice), 50);
+  const sma200 = calculateSMA(chartData.map((d) => d.nsePrice), 200);
 
-  const chartData = {
-    labels: labels,
-    datasets: [
-      ...(showNSE ? [{
-        label: 'NSE Price',
-        data: nsePrices,
-        borderColor: '#FFD700', 
-        tension: 0.4,
-        yAxisID: 'y-price',
-        pointRadius: 0,
-      }] : []),
-      ...(showBSE ? [{
-        label: 'BSE Price',
-        data: bsePrices,
-        borderColor: '#FF4500',
-        tension: 0.4,
-        yAxisID: 'y-price',
-        pointRadius: 0,
-      }] : []),
-      ...(showVolume ? [{
-        label: 'Volume',
-        data: volumes,
-        backgroundColor: 'rgba(30, 144, 255, 0.4)', // Blue
-        yAxisID: 'y-volume',
-        type: 'bar',
-        barThickness: timeframe === '1D' ? 4 : 8,
-      }] : []),
-      ...(show50DMA ? [{
-        label: '50 DMA',
-        data: sma50,
-        borderColor: '#32CD32', // Green
-        borderDash: [5, 5],
-        tension: 0,
-        yAxisID: 'y-price',
-        pointRadius: 0,
-      }] : []),
-      ...(show200DMA ? [{
-        label: '200 DMA',
-        data: sma200,
-        borderColor: '#9400D3', // Purple
-        borderDash: [5, 5],
-        tension: 0,
-        yAxisID: 'y-price',
-        pointRadius: 0,
-      }] : []),
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    interaction: { mode: 'index', intersect: false },
-    plugins: {
-      legend: { position: 'bottom' },
-      tooltip: { 
-        mode: 'index', 
-        intersect: false,
-        position: 'nearest',
-      }
-    },
-    scales: {
-      'y-price': {
-        type: 'linear',
-        display: true,
-        position: 'right',
-        grid: { drawOnChartArea: false },
-      },
-      'y-volume': {
-        type: 'linear',
-        display: true,
-        position: 'left',
-        grid: { drawOnChartArea: false },
-      },
-    },
-  };
+  // Append SMA values to chartData
+  chartData.forEach((d, index) => {
+    d.sma50 = sma50[index];
+    d.sma200 = sma200[index];
+  });
 
   const containerStyle = {
-    width: '100%',
-    height: '500px',
-    position: 'relative',
-    padding: '10px',
-    border: '1px solid #e0e0e0',
-    borderRadius: '8px',
-    margin: '10px 0'
+    width: "100%",
+    height: "500px",
+    position: "relative",
+    padding: "10px",
+    border: "1px solid #e0e0e0",
+    borderRadius: "8px",
+    margin: "10px 0",
   };
 
   const timeframeStyle = {
-    position: 'absolute',
-    top: '10px',
-    right: '10px',
-    display: 'flex',
-    gap: '15px',
-    zIndex: 100
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    display: "flex",
+    gap: "15px",
+    zIndex: 100,
   };
 
   const buttonStyle = {
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    color: '#666',
-    fontSize: '14px',
-    padding: '2px 5px',
-    transition: 'all 0.2s',
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    color: "#666",
+    fontSize: "14px",
+    padding: "2px 5px",
+    transition: "all 0.2s",
   };
 
   const activeButtonStyle = {
     ...buttonStyle,
-    color: '#2962FF',
-    fontWeight: '600',
-    borderBottom: '2px solid #2962FF'
+    color: "#2962FF",
+    fontWeight: "600",
+    borderBottom: "2px solid #2962FF",
   };
 
   const checkboxContainerStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '20px',
-    marginTop: '15px',
-    flexWrap: 'wrap',
-    padding: '10px',
-    background: '#f5f5f5',
-    borderRadius: '8px'
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
+    marginTop: "15px",
+    flexWrap: "wrap",
+    padding: "10px",
+    background: "#f5f5f5",
+    borderRadius: "8px",
   };
 
   return (
     <div style={containerStyle}>
+      {/* Timeframe Selector */}
       <div style={timeframeStyle}>
-        {['1D', '1W', '1M', '1Y', '2Y'].map((tf) => (
+        {["1D", "1W", "1M", "1Y", "2Y"].map((tf) => (
           <button
             key={tf}
             onClick={() => setTimeframe(tf)}
@@ -182,25 +107,51 @@ function ChartComponent({ historicalData, timeframe, setTimeframe }) {
           </button>
         ))}
       </div>
-      
-      <Chart type="line" options={options} data={chartData} />
 
+      {/* AreaChart */}
+      <ResponsiveContainer width="100%" height={400}>
+        <AreaChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+
+          {showNSE && (
+            <Area type="monotone" dataKey="nsePrice" stroke="#FFD700" fill="#FFD70040" name="NSE Price" />
+          )}
+          {showBSE && (
+            <Area type="monotone" dataKey="bsePrice" stroke="#FF4500" fill="#FF450040" name="BSE Price" />
+          )}
+          {showVolume && (
+            <Area type="monotone" dataKey="volume" stroke="#1E90FF" fill="#1E90FF40" name="Volume" />
+          )}
+          {show50DMA && (
+            <Area type="monotone" dataKey="sma50" stroke="#32CD32" fill="none" strokeDasharray="5 5" name="50 DMA" />
+          )}
+          {show200DMA && (
+            <Area type="monotone" dataKey="sma200" stroke="#9400D3" fill="none" strokeDasharray="5 5" name="200 DMA" />
+          )}
+        </AreaChart>
+      </ResponsiveContainer>
+
+      {/* Toggle Checkboxes */}
       <div style={checkboxContainerStyle}>
         {[
-          { label: 'NSE', state: showNSE, setter: setShowNSE },
-          { label: 'BSE', state: showBSE, setter: setShowBSE },
-          { label: 'Volume', state: showVolume, setter: setShowVolume },
-          { label: '50 DMA', state: show50DMA, setter: setShow50DMA },
-          { label: '200 DMA', state: show200DMA, setter: setShow200DMA },
+          { label: "NSE", state: showNSE, setter: setShowNSE },
+          { label: "BSE", state: showBSE, setter: setShowBSE },
+          { label: "Volume", state: showVolume, setter: setShowVolume },
+          { label: "50 DMA", state: show50DMA, setter: setShow50DMA },
+          { label: "200 DMA", state: show200DMA, setter: setShow200DMA },
         ].map((item) => (
-          <label key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <label key={item.label} style={{ display: "flex", alignItems: "center", gap: "5px" }}>
             <input
               type="checkbox"
               checked={item.state}
               onChange={() => item.setter(!item.state)}
-              style={{ accentColor: '#2962FF' }}
+              style={{ accentColor: "#2962FF" }}
             />
-            <span style={{ color: '#333', fontSize: '14px' }}>{item.label}</span>
+            <span style={{ color: "#333", fontSize: "14px" }}>{item.label}</span>
           </label>
         ))}
       </div>

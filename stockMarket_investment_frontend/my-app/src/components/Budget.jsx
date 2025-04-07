@@ -1,33 +1,37 @@
 import React, { useState, useContext, useMemo } from "react";
-import { StockDataContext } from "../contexts/StockDataContext";
-import "../styles/Budget.css"; 
+import StockDataContext from '../contexts/StockDataContext';
+import "../styles/Budget.css";
 
 const Budget = () => {
   const { availableStocks, wallet, updateWallet } = useContext(StockDataContext);
-  const [investmentAmount, setInvestmentAmount] = useState(""); 
+  const [investmentAmount, setInvestmentAmount] = useState("");
   const [budgetSet, setBudgetSet] = useState(false);
   const [currentBudget, setCurrentBudget] = useState(0);
   const [spentAmount, setSpentAmount] = useState(0);
   const [purchasedStocks, setPurchasedStocks] = useState([]);
   const user = JSON.parse(localStorage.getItem("user")) || {};
 
-  
+  const remainingFunds = useMemo(() => currentBudget - spentAmount, [currentBudget, spentAmount]);
+
   const highDemandStocks = useMemo(() => {
     return [...availableStocks]
       .sort((a, b) => b.change - a.change)
-      .slice(0, 5); 
+      .slice(0, 5);
   }, [availableStocks]);
 
   const affordableRecommendedStocks = useMemo(() => {
     if (!budgetSet) return [];
-    const remainingFunds = currentBudget - spentAmount;
     return availableStocks
       .filter((stock) => stock.price <= remainingFunds)
-      .sort((a, b) => b.change - a.change); 
-  }, [availableStocks, currentBudget, spentAmount, budgetSet]);
+      .sort((a, b) => {
+        const priceDiffA = remainingFunds - a.price;
+        const priceDiffB = remainingFunds - b.price;
+        return (b.change + (1 / (priceDiffB + 1))) - (a.change + (1 / (priceDiffA + 1)));
+      });
+  }, [availableStocks, remainingFunds, budgetSet]);
 
   const handleSetBudget = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     const amount = Number(investmentAmount);
     if (isNaN(amount) || amount <= 0) {
       alert("Please enter a valid positive investment amount.");
@@ -48,14 +52,13 @@ const Budget = () => {
   };
 
   const handleBuyStock = (stock) => {
-    const remainingFunds = currentBudget - spentAmount;
     if (stock.price <= remainingFunds) {
       const newSpentAmount = spentAmount + stock.price;
       setSpentAmount(newSpentAmount);
-      updateWallet(-stock.price); 
+      updateWallet(-stock.price);
       setPurchasedStocks((prev) => [
         ...prev,
-        { ...stock, purchasePrice: stock.price }, 
+        { ...stock, purchasePrice: stock.price },
       ]);
     } else {
       alert("Not enough budget remaining to buy this stock!");
@@ -63,7 +66,6 @@ const Budget = () => {
   };
 
   const handleResetBudget = () => {
-    
     setInvestmentAmount("");
     setCurrentBudget(0);
     setSpentAmount(0);
@@ -74,6 +76,24 @@ const Budget = () => {
   const progressPercent = budgetSet && currentBudget > 0
     ? (spentAmount / currentBudget) * 100
     : 0;
+
+  const progressBarClass =
+    progressPercent < 50
+      ? "low"
+      : progressPercent < 85
+      ? "medium"
+      : "high";
+
+  const showProfitOrLoss = (purchasePrice, currentPrice) => {
+    const diff = currentPrice - purchasePrice;
+    const percent = (diff / purchasePrice) * 100;
+    const status = diff > 0 ? "profit" : diff < 0 ? "loss" : "neutral";
+    return {
+      percent: percent.toFixed(2),
+      status,
+      label: `${diff >= 0 ? '+' : ''}${percent.toFixed(2)}%`
+    };
+  };
 
   return (
     <div className="budget-container">
@@ -104,7 +124,7 @@ const Budget = () => {
               min="0.01"
               step="0.01"
               required
-              disabled={budgetSet} 
+              disabled={budgetSet}
               className="budget-input"
             />
             <button type="submit" className="budget-button primary" disabled={budgetSet}>
@@ -123,13 +143,13 @@ const Budget = () => {
         <section className="budget-progress-section budget-card">
           <h3>Investment Progress</h3>
           <div className="budget-summary">
-             <span>Planned: ₹{currentBudget.toFixed(2)}</span>
-             <span>Spent: ₹{spentAmount.toFixed(2)}</span>
-             <span>Remaining: ₹{(currentBudget - spentAmount).toFixed(2)}</span>
+            <span>Planned: ₹{currentBudget.toFixed(2)}</span>
+            <span>Spent: ₹{spentAmount.toFixed(2)}</span>
+            <span>Remaining: ₹{remainingFunds.toFixed(2)}</span>
           </div>
           <div className="progress-bar-container">
             <div
-              className="progress-bar-fill"
+              className={`progress-bar-fill ${progressBarClass}`}
               style={{ width: `${progressPercent}%` }}
             >
               {progressPercent.toFixed(0)}%
@@ -162,7 +182,8 @@ const Budget = () => {
                         <button
                           className="budget-button buy"
                           onClick={() => handleBuyStock(stock)}
-                          disabled={stock.price > (currentBudget - spentAmount)}
+                          disabled={stock.price > remainingFunds}
+                          title={stock.price > remainingFunds ? "Not enough funds" : ""}
                         >
                           Buy
                         </button>
@@ -174,7 +195,7 @@ const Budget = () => {
             </div>
           ) : (
             <p className="empty-state">
-              No affordable stocks match your remaining budget, or check available stocks.
+              No affordable stocks match your remaining budget.
             </p>
           )}
         </section>
@@ -190,17 +211,28 @@ const Budget = () => {
                   <th>Symbol</th>
                   <th>Name</th>
                   <th>Purchase Price (₹)</th>
+                  <th>ROI</th>
                 </tr>
               </thead>
               <tbody>
-                {purchasedStocks.map((stock, index) => (
-                
-                  <tr key={`${stock.symbol}-${index}`}>
-                    <td>{stock.symbol}</td>
-                    <td>{stock.name}</td>
-                    <td>{stock.purchasePrice.toFixed(2)}</td>
-                  </tr>
-                ))}
+                {purchasedStocks.map((stock, index) => {
+                  const currentStock = availableStocks.find(s => s.symbol === stock.symbol);
+                  const roi = currentStock
+                    ? showProfitOrLoss(stock.purchasePrice, currentStock.price)
+                    : null;
+                  return (
+                    <tr key={`${stock.symbol}-${index}`}>
+                      <td>{stock.symbol}</td>
+                      <td>{stock.name}</td>
+                      <td>{stock.purchasePrice.toFixed(2)}</td>
+                      <td>
+                        {roi ? (
+                          <span className={`roi-${roi.status}`}>{roi.label}</span>
+                        ) : "—"}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -208,50 +240,38 @@ const Budget = () => {
       )}
 
       <section className="budget-high-demand budget-card">
-         <h3>🔥 Top 5 High Demand Stocks Today</h3>
-         <div className="stocks-table-container">
-              <table className="stocks-table">
-                <thead>
-                  <tr>
-                    <th>Symbol</th>
-                    <th>Name</th>
-                    <th>Change (%)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {highDemandStocks.map((stock) => (
-                    <tr key={stock.symbol}>
-                      <td>{stock.symbol}</td>
-                      <td>{stock.name}</td>
-                      <td className={stock.change > 0 ? "positive-change" : "negative-change"}>
-                         {stock.change > 0 ? "+" : ""}{stock.change.toFixed(2)}%
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+        <h3>🔥 Top 5 High Demand Stocks Today</h3>
+        <div className="stocks-table-container">
+          <table className="stocks-table">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Change (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {highDemandStocks.map((stock) => (
+                <tr key={stock.symbol}>
+                  <td>{stock.symbol}</td>
+                  <td>{stock.name}</td>
+                  <td className={stock.change > 0 ? "positive-change" : "negative-change"}>
+                    {stock.change > 0 ? "+" : ""}{stock.change.toFixed(2)}%
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section className="budget-tips budget-card">
         <h3>Investment Tips</h3>
         <ul>
-          <li>
-            <strong>Diversify:</strong> Don't put all your funds into one stock.
-            Spread investments across different sectors.
-          </li>
-          <li>
-            <strong>Research:</strong> Understand the company and market before
-            investing. Look at performance history and future potential.
-          </li>
-          <li>
-            <strong>Long-Term View:</strong> Investing is often a marathon, not
-            a sprint. Be patient and avoid panic selling during dips.
-          </li>
-          <li>
-            <strong>Invest What You Can Afford:</strong> Only invest money you
-            can afford to lose, especially in volatile markets.
-          </li>
+          <li><strong>Diversify:</strong> Spread investments across sectors.</li>
+          <li><strong>Research:</strong> Understand the company before investing.</li>
+          <li><strong>Long-Term View:</strong> Stay patient during market dips.</li>
+          <li><strong>Invest Wisely:</strong> Only invest what you can afford to lose.</li>
         </ul>
       </section>
     </div>

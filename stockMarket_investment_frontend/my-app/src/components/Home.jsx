@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, Outlet ,useLocation,useNavigate} from "react-router-dom";
 import "../styles/Home.css";
 import { FaChartLine } from "react-icons/fa";
-import { StockDataContext } from "../contexts/StockDataContext";
+import StockDataContext from '../contexts/StockDataContext';
 import { CgProfile } from "react-icons/cg";
 import { CiSearch } from "react-icons/ci";
 import StockTicker from "./StockTicker";
